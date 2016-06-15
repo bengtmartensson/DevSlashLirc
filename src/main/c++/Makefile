@@ -13,15 +13,18 @@ org_harctoolbox_devslashlirc_LircCodeLircDevice.o \
 org_harctoolbox_devslashlirc_LircDevice.o \
 Mode2LircDriver.o \
 LircDriver.o LircCodeLircDriver.o \
-lirc_log.o driver.o
-#org_harctoolbox_devslashlirc_LircDriver.o \
-#org_harctoolbox_devslashlirc_Mode2LircDriver.o org_harctoolbox_devslashlirc_LircCodeLircDriver.o
+lirc_log.o driver.o \
+org_harctoolbox_devslashlirc_LircDriver.o \
+org_harctoolbox_devslashlirc_Mode2LircDriver.o org_harctoolbox_devslashlirc_LircCodeLircDriver.o
 
 all: libdevslashlirc.so ../../../native/libdevslashlirc.so
 
 org_harctoolbox_devslashlirc_LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircDevice.h
 org_harctoolbox_devslashlirc_Mode2LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_Mode2LircDevice.h
 org_harctoolbox_devslashlirc_LircCodeLircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircCodeLircDevice.h
+org_harctoolbox_devslashlirc_LircDriver.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircDriver.h
+org_harctoolbox_devslashlirc_Mode2LircDriver.o: $(GENERATED)/org_harctoolbox_devslashlirc_Mode2LircDriver.h
+org_harctoolbox_devslashlirc_LircCodeLircDriver.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircCodeLircDriver.h
 
 $(GENERATED)/org_harctoolbox_devslashlirc_%.h:
 	$(JAVAH) -o $@ -classpath ../../../target/classes org.harctoolbox.devslashlirc.$*
