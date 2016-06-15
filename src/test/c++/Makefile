@@ -5,21 +5,22 @@ WARN=-Wall -Wextra
 OPT=-O0
 DEBUG=-g
 
-TEST_PROGS= reportMode2 yamaha_power_on mode2dump receive
+TEST_PROGS= reportMode2 yamaha_power_on mode2dump receive testMode2Driver
 
-all: test
+all: $(TEST_PROGS)
 
 %.o: %.cpp
 	$(CXX) -o $@ $(WARN) $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
 
 %: %.cpp
-	$(CXX) -o $@ $(WARN) $(INCLUDES) -Wl,-rpath -Wl,../../../native -O0 -g $(CFLAGS) $< -L../../../native -ldevslashlirc
+	$(CXX) -o $@ $(WARN) $(INCLUDES) -Wl,-rpath -Wl,../../../native -O0 -g $(CFLAGS) $< -L../../../native -ldevslashlirc -ldl
 
 test: $(TEST_PROGS)
 	./reportMode2
 	./yamaha_power_on
 	./receive
+	./testMode2Driver
 	./mode2dump
 
 clean:
-	rm -f *.o *.a *.so $(TEST_PROGS)
+	rm -f *.o $(TEST_PROGS)

@@ -61,7 +61,7 @@ public class LircDeviceNGTest {
 
     /**
      * Test of setTransmitterMask method, of class LircDevice.
-     * @throws org.harctoolbox.lircdevice.LircDeviceException
+     * @throws org.harctoolbox.devslashlirc.LircDeviceException
      */
     @Test
     public void testSetTransmitterMask() throws LircDeviceException {

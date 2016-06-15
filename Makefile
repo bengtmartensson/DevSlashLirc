@@ -1,4 +1,6 @@
-all: target/liblircdevice.so doxygen
+lib: target/liblircdevice.so
+
+all: lib doxygen
 
 clean:
 	mvn clean
