@@ -18,7 +18,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 package org.harctoolbox.devslashlirc;
 
 /**
- *
+ * This class models a "LircCode" Lirc hardware on /dev/lirc*.
  */
 public class LircCodeLircDevice extends LircDevice implements ILircCode {
 
@@ -37,10 +37,6 @@ public class LircCodeLircDevice extends LircDevice implements ILircCode {
 
     @Override
     public native int read();
-
-//    public void report() {
-//        throw new UnsupportedOperationException("Not supported yet.");
-//    }
 
     @Override
     protected native boolean openNative();

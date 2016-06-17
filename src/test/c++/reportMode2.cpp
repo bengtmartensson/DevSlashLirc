@@ -13,4 +13,8 @@ int main(int argc, char** argv) {
     lirconian.open();
     lirconian.report();
     lirconian.setTransmitterMask(1);
+    bool success = lirconian.close();
+    std::cout << success << std::endl;
+    lirconian.open();
+    lirconian.report();
 }

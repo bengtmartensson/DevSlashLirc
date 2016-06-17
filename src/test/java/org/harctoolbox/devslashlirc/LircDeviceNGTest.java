@@ -61,7 +61,7 @@ public class LircDeviceNGTest {
 
     /**
      * Test of setTransmitterMask method, of class LircDevice.
-     * @throws org.harctoolbox.lircdevice.LircDeviceException
+     * @throws LircDeviceException
      */
     @Test
     public void testSetTransmitterMask() throws LircDeviceException {
@@ -124,7 +124,7 @@ public class LircDeviceNGTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        String expResult = "Mode2LircDevice  setCarrierdeviceName=/dev/lirc0 send setTransmitterMask record, # transmitters = 0";
+        String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
         String result = instance.toString();
         assertEquals(result, expResult);
     }

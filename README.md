@@ -1,2 +1,39 @@
-# DevSlashLirc
-Accessing /dev/lirc from Java (and possibly other languages)
+# DevSlashLirc &mdash; Object oriented access to `/dev/lirc`-hardware.
+
+This library makes objects from `/dev/lirc`-hardware. These objects have properties like `canSend` etc.,
+indicating the capabilities of the currently connected hardwarec, and methods like `send` and `receive`
+for sending and receiving. See the examples in `src/test/c++`.
+
+As opposed to standard C/Lirc, where a device is opened, and it "turns out" that it is "mode2" or "lirccode",
+here the user has to decide if he wants a mode2 or lirccode device, and open it with the appropriate class.
+This will fail if the connected hardware does not have the expected properties.  For this,
+there are the concrete classes `Mode2LircDevice` (modeling a "mode2" device, i.e. with the possibility of
+handling IR signals with "arbitrary" timings), and `LircCodeLircDevice` (modeling a "LircCode" device, i.e.
+one that can only use IR signals from its own set, and codes them on an integer, representing the IR
+signal.) The latter class is presently not completely implemented.
+
+The classes may be instantiated multiple times,
+but of course only one can open a particular device file at a particular time.
+
+The core library is written in C++, using classes and the stdc++ library.
+There are no other dependencies. In particular, there is no dependency of the
+Lirc sources, includes, or libraries. Only `media/lirc.h`, see `man 4 lirc`, which is considered
+belonging to the kernel, is included. The C++ code is documented using doxygen.
+
+The C++-code uses the ("non-portable") `#pragma once` instead of the traditional
+[include guards](https://en.wikipedia.org/wiki/Include_guard).
+
+The C++ code is compiled into a shared library. This can be linked into application programs (see the test
+programs in `src/test/c++`) or used as a JNI library for accessing it from Java.
+
+As `man 4 lirc` shows, there is a large number of hardly ever implemented properties supported. I have followed
+the "agile" commandment _maximize the amount of work not done_, and simply ignored the ones not useful or not
+commonly implemented.
+
+As mentioned, there are also Java bindings using JNI. With some extra effort, bindings
+from other languages can be added, for example using [SWIG](https://en.wikipedia.org/wiki/SWIG).
+Contributions are welcome.
+
+Maven is used to compile the Java parts. A Makefile compiles the C++ code. It also invokes the Maven process.
+
+The code is entirely written from scratch.

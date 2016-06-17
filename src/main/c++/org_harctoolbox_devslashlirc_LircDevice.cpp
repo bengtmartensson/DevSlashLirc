@@ -22,7 +22,8 @@ static LircDevice *getLircDevice(JNIEnv *env, jobject object) {
  */
 JNIEXPORT void JNICALL Java_org_harctoolbox_devslashlirc_LircDevice_close
   (JNIEnv *env, jobject object) {
-    delete getLircDevice(env, object);
+    //delete getLircDevice(env, object);
+    getLircDevice(env, object)->close();
 }
 
 ///*
@@ -132,4 +133,15 @@ JNIEXPORT jboolean JNICALL Java_org_harctoolbox_devslashlirc_LircDevice_canRec
 JNIEXPORT jboolean JNICALL Java_org_harctoolbox_devslashlirc_LircDevice_isValid
   (JNIEnv *env, jobject object) {
     return getLircDevice(env, object)->isValid();
+}
+
+/*
+ * Class:     org_harctoolbox_devslashlirc_LircDevice
+ * Method:    delete
+ * Signature: ()V
+ */
+JNIEXPORT void JNICALL Java_org_harctoolbox_devslashlirc_LircDevice_delete
+  (JNIEnv *env, jobject object) {
+    LircDevice* d = getLircDevice(env, object);
+    delete d;
 }

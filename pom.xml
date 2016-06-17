@@ -24,61 +24,6 @@
     </properties>
     <build>
         <plugins>
-            <!-- Source and binary tarballs from src/assembly/* files. -->
-            <!--plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${project.groupId}.jgirs.${project.name}</mainClass>
-                        </manifest>
-                        <!- -manifestEntries>
-                            <SplashScreen-Image>images/splash.png</SplashScreen-Image>
-                        </manifestEntries- ->
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <descriptors>
-                        <descriptor>src/assembly/target.xml</descriptor>
-                    </descriptors>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>exec-bin</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin-->
-
-            <!--plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>1.4.0</version>
-                <executions>
-                    <execution>
-                        <id>javah</id>
-                        <phase>generate-resourcespackage</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>javah</executable>
-                            <workingDirectory>${basedir}</workingDirectory>
-                            <arguments>
-                                <argument>-o</argument>
-                                <argument>${project.version}</argument>
-                                <argument>${basedir}/../appimagekit</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin-->
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -115,7 +60,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <skipTests>false</skipTests>
+                    <skipTests>true</skipTests> <!-- requires hardware -->
                     <argLine>-Djava.library.path=${basedir}/native</argLine>
                 </configuration>
             </plugin>

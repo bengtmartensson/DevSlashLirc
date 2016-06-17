@@ -20,26 +20,15 @@ package org.harctoolbox.devslashlirc;
 import java.io.Closeable;
 
 /**
- * An abstract base class for Lirc Drivers and Devices
+ * An abstract base class for Lirc drivers and -devices.
  */
 public abstract class LircHardware implements Closeable {
     static {
-//        System.load("/usr/local/lib/liblirc.so.0.0.0");
-//        System.load("/usr/local/lib/liblirc_client.so.0.4.0");
-//        System.load("/usr/local/lib/liblirc_driver.so.0.0.0");
-//          System.loadLibrary("lirc_driver");
-//          System.loadLibrary("lirc");
-
-
         System.loadLibrary("devslashlirc");
-
-//        System.loadLibrary("lirc_client");
-//        System.loadLibrary("lirc_driver");
     }
 
     protected long nativePointer;
     protected String deviceName;
-    //protected int numberTransmitters = -1;
 
     private LircHardware() {
         this.nativePointer = 0;
@@ -50,20 +39,22 @@ public abstract class LircHardware implements Closeable {
         this.deviceName = deviceName;
     }
 
+    /**
+     * Opens the device using the device name used in the constructor.
+     * @throws LircDeviceException Failure to open.
+     */
     public void open() throws LircDeviceException {
         boolean status = openNative();
         if (!status)
             throw new LircDeviceException("open failed");
     }
 
-    //public abstract void setTransmitterMask(int mask) throws NotSupportedException, NonExistentTransmitterException, LircDeviceException;
-
     public final void setTransmitterMask(int mask) throws NotSupportedException, NonExistentTransmitterException, LircDeviceException {
         if (!canSetTransmitterMask())
             throw new NotSupportedException("Setting transmitter mask not supported");
         int noTransmitters = getNumberTransmitters();
 
-        // If noTransmitters == 0, probably it is just incorrectly reported;
+        // If noTransmitters reports as 0, probably this is just wrong;
         // ignore this "information".
         if (noTransmitters > 0 && (mask >= (1 << noTransmitters)))
             throw new NonExistentTransmitterException("No such transmitter");
@@ -78,9 +69,11 @@ public abstract class LircHardware implements Closeable {
 
     protected abstract boolean openNative();
 
-    //@Override
-    //public abstract void close();
-
+    /**
+     * Returns the version string of the underlying C++ code, not the version of the hardware or the
+     * device driver.
+     * @return String
+     */
     public abstract String getVersion();
 
     public abstract boolean canSend();
@@ -89,6 +82,10 @@ public abstract class LircHardware implements Closeable {
 
     public abstract boolean canRec();
 
+    /**
+     * Returns true if the device is opened and working.
+     * @return boolean
+     */
     public abstract boolean isValid();
 
     @Override

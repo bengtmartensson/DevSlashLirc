@@ -21,7 +21,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * This class models a /dev/lirc device of the mode2 type, that is, capable of
+ * sending and/or receiving according to raw timing information.
  */
 public class Mode2LircDevice extends LircDevice implements IMode2 {
 
@@ -93,9 +94,9 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
 
     @Override
     public String toString() {
-        return "Mode2LircDevice "
-                + (canSetSendCarrier() ? " setCarrier" : "")
-                + (canGetRecResolution() ? " getRecResolution" : "")
+        return "mode2 "
+                + (canSetSendCarrier() ? " setCarr." : "")
+                + (canGetRecResolution() ? " getRecRes." : "")
                 + super.toString();
     }
 

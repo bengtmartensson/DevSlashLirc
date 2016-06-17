@@ -155,7 +155,7 @@ public class Mode2LircDeviceNGTest {
     @Test
     public void testToString() {
         System.out.println("toString");
-        String expResult = "Mode2LircDevice  setCarrierdeviceName=/dev/lirc0 send setTransmitterMask record, # transmitters = 0";
+        String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
         String result = instance.toString();
         assertEquals(result, expResult);
     }

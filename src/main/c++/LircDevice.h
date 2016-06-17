@@ -42,22 +42,14 @@ protected:
     LircDevice(const char *path);
     LircDevice(const LircDevice& orig);
     virtual bool open();
-    bool close();
 
 public:
+    bool close();
     static const char *version;
     static const char *defaultFilename; // = "/dev/lirc0";
     static const uint32_t INVALID = UINT32_MAX;
 
     virtual ~LircDevice();
-
-//    /**
-//     * This factory method delivers an instance of a subclass,
-//     * determined at runtime according to the connected hardware.
-//     * @param path File system path or lird device
-//     * @return instance
-//     */
-//    static LircDevice *newLircDevice(const char *path = defaultFilename);
 
     bool isValid() const { return valid; }
 

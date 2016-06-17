@@ -13,11 +13,11 @@ static const unsigned MAXSIZE = 1000;
 Mode2LircDevice::Mode2LircDevice(const char *path) : LircDevice(path) {
 }
 
-//Mode2LircDevice::Mode2LircDevice(const LircDevice& orig) : LircDevice(orig) {
-//}
-
 bool Mode2LircDevice::open() {
-    LircDevice::open();
+    bool status = LircDevice::open();
+    if (!status)
+        return false;
+
     if (recordingMode != LIRC_MODE_MODE2) {
         std::cerr << "This is not a mode2 device!" << std::endl;
         valid = false;
@@ -152,18 +152,3 @@ bool Mode2LircDevice::send(const lirc_t *data, unsigned length, frequency_t freq
     }
     return send(data, length);
 }
-
-//bool Mode2LircDevice::send(const lirc_t *data, unsigned length, frequency_t frequency,
-//        dutycycle_t dutyCycle) {
-//    if (canSetSendDutyCycle()) {
-//        int status = setSendDutyCycle(dutyCycle);
-//        if (status == IOCTL_ERROR) {
-//            std::cerr << "Could not set sending duty cycle" << std::endl;
-//            return false;
-//        }
-//    } else {
-//        std::cerr << "Device does not support setting duty cycle" << std::endl;
-//        return false;
-//    }
-//    return send(data, length, frequency);
-//}

@@ -63,7 +63,7 @@ public:
     /**
      * Mid-level sending routine. Sends the data.
      * @param data
-     * @param length, required to be odd.
+     * @param length; required to be odd.
      * @return success of operation
      */
     bool send(const lirc_t *data, unsigned length);
@@ -75,7 +75,8 @@ public:
      * @return success of operation
      */
     bool send(const IrSequence& irSequence);
-   /**
+
+    /**
      * High-level sending routine. Sends the irSequence with the requested
      * frequency.
      * @param irSequence
@@ -86,7 +87,15 @@ public:
         return send((lirc_t *) irSequence.getDurations(), irSequence.getLength(), frequency);
     }
 
-    bool send(const lirc_t *data, unsigned int length, frequency_t frequency);
+    /**
+     * High-level sending routine. Sends the irSequence with the requested
+     * frequency.
+     * @param data
+     * @param length
+     * @param frequency
+     * @return success of operation
+     */
+    bool send(const lirc_t *data, unsigned length, frequency_t frequency);
 
     /** Set  the  modulation  frequency.   The argument is the frequency (Hz).*/
     int setSendCarrier(int frequency = defaultFrequency) {

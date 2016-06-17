@@ -77,6 +77,9 @@ LircDevice::~LircDevice() {
 }
 
 bool LircDevice::close() {
+    if (fileDescriptor < 0)
+        return false;
+
     int status = ::close(fileDescriptor);
     if (status != IOCTL_OK)
         std::cerr << "Error when closing " << fileName << ": " << status << std::endl;
@@ -133,17 +136,3 @@ bool LircDevice::reportValidity(std::ostream& stream) const {
     stream << (valid ? "VALID" : "INVALID") << std::endl;
     return valid;
 }
-
-//LircDevice *LircDevice::newLircDevice(const char *path) {
-//    class LircDeviceImpl : public LircDevice {
-//    public:
-//        LircDeviceImpl(const char *p) : LircDevice(p) {}
-//        bool isMode2() const { return recordingMode == LIRC_MODE_MODE2; }
-//        bool isLircCode() const { return recordingMode == LIRC_MODE_LIRCCODE; }
-//    };
-//
-//    LircDevice *lircDevice = new LircDeviceImpl(path);
-//    return !lircDevice->isValid() ? NULL
-//            : lircDevice->isMode2() ? (LircDevice*) new Mode2LircDevice(*lircDevice)
-//            : (LircDevice*) new LircCodeLircDevice(*lircDevice);
-//}

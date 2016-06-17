@@ -18,7 +18,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 package org.harctoolbox.devslashlirc;
 
 /**
- *
+ * This exception is thrown when a non-existing transmitter is requested.
  */
 public class NonExistentTransmitterException extends LircDeviceException {
 

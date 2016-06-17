@@ -18,7 +18,15 @@ this program. If not, see http://www.gnu.org/licenses/.
 package org.harctoolbox.devslashlirc;
 
 /**
- *
+ * This class is an abstract class for hardware communicating through /dev/lirc.
+ * <p>
+ * As opposed to standard C/Lirc, where a device is opened, and it "turns out"
+ * that it is "mode2" or "lirccode", here the user has to decide if he wants
+ * a mode2 or lirccode device, and open it with the appropriate class. This will
+ * fail if the connected hardware does not have the expected properties.
+ * <p>
+ * This class (and its derived classes) can be instantiated several times,
+ * but of course only one can open a particular device file.
  */
 public abstract class LircDevice extends LircHardware {
     public static final String defaultDeviceName = "/dev/lirc0";
@@ -53,10 +61,23 @@ public abstract class LircDevice extends LircHardware {
 
     @Override
     public String toString() {
-        return "deviceName=" + deviceName
-                + (canSend() ? " send" : "")
-                + (canSetTransmitterMask() ? " setTransmitterMask" : "")
-                + (canRec() ? " record" : "")
-                + ", # transmitters = " + getNumberTransmitters();
+        return //"deviceName=" + deviceName
+                  (canSend() ? " send" : "")
+                + (canRec() ? " rec." : "")
+                + (canSetTransmitterMask() ? " setTM" : "")
+                + " #xmtrs=" + getNumberTransmitters();
+    }
+
+    /**
+     * Invoke the destructor from Java.
+     */
+    public native void delete();
+
+    @Override
+    protected void finalize() throws Throwable {
+        close();
+        delete();
+        super.finalize();
+
     }
 }

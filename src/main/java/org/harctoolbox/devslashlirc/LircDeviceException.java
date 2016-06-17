@@ -18,7 +18,7 @@ this program. If not, see http://www.gnu.org/licenses/.
 package org.harctoolbox.devslashlirc;
 
 /**
- *
+ * Class for exceptions thrown from the classes in this package.
  */
 public class LircDeviceException extends Exception {
 
