@@ -1,4 +1,4 @@
-all: target/liblircdevice.so doxygen
+all: lib doxygen
 
 clean:
 	mvn clean
@@ -20,5 +20,8 @@ test:
 maven:
 	mvn package -Dmaven.test.skip=true
 
-target/liblircdevice.so: maven
+lib: target/libdevslashlirc.so
+
+target/libdevslashlirc.so: maven
 	(cd src/main/c++ && make)
+	cp src/main/c++/libdevslashlirc.so $@
