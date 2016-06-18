@@ -2,6 +2,10 @@
 
 #include <stdint.h>
 
+#ifndef UINT32_MAX
+#define UINT32_MAX 4294967295U
+#endif
+
 /**
  * @file InfraredTypes.h
  * @brief This file defines some general data types that are used in the library.

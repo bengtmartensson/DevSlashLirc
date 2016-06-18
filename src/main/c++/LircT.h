@@ -47,7 +47,7 @@ public:
     }
 
     bool isTerminal() const {
-        return isTimeout() || getDuration() == MAXDURATION;
+        return isTimeout() || (lirc_t) getDuration() == MAXDURATION;
     }
 
     void dump(std::ostream& stream = std::cout) const;
@@ -74,7 +74,7 @@ public:
     }
 
     static bool isTerminal(lirc_t t) {
-        return isTimeout(t) || getDuration(t) == MAXDURATION;
+        return isTimeout(t) || (lirc_t) getDuration(t) == MAXDURATION;
     }
 
     static void dump(lirc_t t, std::ostream& stream = std::cout) {
