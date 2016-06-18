@@ -20,6 +20,7 @@ public class Mode2LircDeviceNGTest {
 
     @BeforeClass
     public static void setUpClass() {
+        LircHardware.loadLibrary();
         try {
             instance = new Mode2LircDevice();
             instance.open();

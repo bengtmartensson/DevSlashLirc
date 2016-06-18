@@ -18,14 +18,63 @@ this program. If not, see http://www.gnu.org/licenses/.
 package org.harctoolbox.devslashlirc;
 
 import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * An abstract base class for Lirc drivers and -devices.
  */
 public abstract class LircHardware implements Closeable {
-    static {
-        System.loadLibrary("devslashlirc");
+    public static final String libraryName = "devslashlirc";
+
+    private static boolean libLoaded = false;
+
+    /**
+     * Loads the native library from a system library.
+     * This function, or the version with argument,
+     * must be called before instantiating the class.
+     * @throws UnsatisfiedLinkError If loading fails
+     */
+    public static void loadLibrary() throws UnsatisfiedLinkError {
+        loadLibrary(null);
     }
+
+    /**
+     * Loads the library, either given as argument (preferred), or, ignoring the argument,
+     * from a system library. This function, or the version without argument,
+     * must be called before instantiating the class.
+     * @param path Either the path name of the library, or the path name of the containing
+     * directory.
+     * @throws UnsatisfiedLinkError If loading fails
+     */
+    public static void loadLibrary(File path) throws UnsatisfiedLinkError {
+        if (!libLoaded) {
+            if (path != null) {
+                File libFile = path.isDirectory()
+                        ? new File(path, System.mapLibraryName(libraryName))
+                        : path;
+                try {
+                    System.load(libFile.getCanonicalPath());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else
+                System.loadLibrary(libraryName);
+            libLoaded = true;
+        }
+    }
+
+    /**
+     * Returns true if the native library has been successfully loaded.
+     * @return
+     */
+    public static boolean isLibraryLoaded() {
+        return libLoaded;
+    }
+
+//    static {
+//        loadLibrary();
+//    }
 
     protected long nativePointer;
     protected String deviceName;

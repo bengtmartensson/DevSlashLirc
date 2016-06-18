@@ -105,6 +105,7 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
         int[] nec1_122_29 = {
             9024, 4512, 564, 564, 564, 1692, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 1692, 564, 564, 564, 1692, 564, 564, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 1692, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 39756
         };
+        LircHardware.loadLibrary();
         try (Mode2LircDevice device = new Mode2LircDevice()) {
             System.out.println(device.getVersion());
             device.open();

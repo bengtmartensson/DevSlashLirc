@@ -27,6 +27,7 @@ public class LircDeviceNGTest {
 
     @BeforeClass
     public static void setUpClass() throws LircDeviceException {
+        LircHardware.loadLibrary();
         Mode2LircDevice thing = new Mode2LircDevice();
         assertFalse(thing.isValid());
         thing.open();
