@@ -32,8 +32,23 @@ commonly implemented.
 
 As mentioned, there are also Java bindings using JNI. With some extra effort, bindings
 from other languages can be added, for example using [SWIG](https://en.wikipedia.org/wiki/SWIG).
-Contributions are welcome.
+Contributions are welcome, (see [issue #1](https://github.com/bengtmartensson/DevSlashLirc/issues/1)).
 
-Maven is used to compile the Java parts. A Makefile compiles the C++ code. It also invokes the Maven process.
+The code should compile on any platform supporting `/dev/lirc`, possibly after adapting the Makefile
+(see [issue #2](https://github.com/bengtmartensson/DevSlashLirc/issues/2)).
 
-The code is entirely written from scratch.
+A natural extension would be to extend the library to support Lirc plugin drivers. This is discussed in [issue #3](https://github.com/bengtmartensson/DevSlashLirc/issues/3)).
+There is also a branch containing some work in this directon, `lircdriver`.
+
+Maven is used to compile the Java parts. A Makefile compiles the C++ code, and also invokes the Maven process.
+Redundantly, to build, just issue the command
+
+     make lib
+
+The command
+
+    make doc
+
+creates the Doxygen and Javadoc documentation.
+
+The code is entirely written from scratch (not counting the branch `lircdriver`).

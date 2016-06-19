@@ -66,7 +66,7 @@ public abstract class LircHardware implements Closeable {
 
     /**
      * Returns true if the native library has been successfully loaded.
-     * @return
+     * @return success (boolean)
      */
     public static boolean isLibraryLoaded() {
         return libLoaded;

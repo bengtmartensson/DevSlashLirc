@@ -1,4 +1,4 @@
-all: lib doxygen
+all: lib doc
 
 clean:
 	mvn clean
@@ -7,6 +7,7 @@ clean:
 
 doxygen: | target
 	doxygen
+	mvn javadoc:javadoc
 
 doc: doxygen
 	xdg-open target/api-doc/index.html
