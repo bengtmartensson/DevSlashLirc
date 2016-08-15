@@ -24,12 +24,12 @@ public class LircCodeLircDevice extends LircDevice implements ILircCode {
 
     private native static long newLircCodeLircDevice(String deviceName);
 
-    public LircCodeLircDevice(String deviceName) {
-        super(deviceName, newLircCodeLircDevice(deviceName));
+    public LircCodeLircDevice(String deviceName, int beginTimeout) {
+        super(deviceName, beginTimeout, newLircCodeLircDevice(deviceName));
     }
 
     public LircCodeLircDevice() {
-        this(defaultDeviceName);
+        this(defaultDeviceName, defaultBeginTimeout);
     }
 
     @Override

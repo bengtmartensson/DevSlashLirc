@@ -145,3 +145,14 @@ JNIEXPORT void JNICALL Java_org_harctoolbox_devslashlirc_LircDevice_delete
     LircDevice* d = getLircDevice(env, object);
     delete d;
 }
+
+/*
+ * Class:     org_harctoolbox_devslashlirc_LircDevice
+ * Method:    setBeginTimeout
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_harctoolbox_devslashlirc_LircDevice_setBeginTimeout
+  (JNIEnv *env, jobject object, jint timeout) {
+    LircDevice* d = getLircDevice(env, object);
+    d->setBeginTimeout(timeout);
+}

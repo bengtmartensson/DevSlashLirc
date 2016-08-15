@@ -5,12 +5,13 @@
 #include <errno.h>
 #include <sys/ioctl.h>
 #include <string.h>
+#include <poll.h>
 
 static const int IOCTL_OK = 0;
 static const int IOCTL_ERROR = -1;
-static const unsigned MAXSIZE = 1000;
 
-Mode2LircDevice::Mode2LircDevice(const char *path) : LircDevice(path) {
+Mode2LircDevice::Mode2LircDevice(const char *path, milliseconds_t beginTimeout, size_t captureSize_, milliseconds_t endTimeout_)
+    : LircDevice(path, beginTimeout),endTimeout(endTimeout_),captureSize(captureSize_) {
 }
 
 bool Mode2LircDevice::open() {
@@ -24,7 +25,6 @@ bool Mode2LircDevice::open() {
         return false;
     }
 
-
     if (canGetRecResolution()) {
         uint32_t res;
         int status = ::ioctl(fileDescriptor, LIRC_GET_REC_MODE, &res);
@@ -35,6 +35,10 @@ bool Mode2LircDevice::open() {
         resolution = (microseconds_t) res;
     } else
         resolution = (microseconds_t) INVALID;
+
+    setRecTimeout(1000U * endTimeout); // do not care to check status
+    setRecTimeoutReports(true); // do not care to check status
+
     return true;
 }
 
@@ -56,10 +60,26 @@ void Mode2LircDevice::report(std::ostream& stream) const {
     LircDevice::report("canGetRecResolution", canGetRecResolution(), stream);
 }
 
-lirc_t Mode2LircDevice::read() {
+/**
+ * Read a number.
+ * @param timeout timeout in milliseconds; 0 for no timeout (wait forever)
+ * @return
+ */
+lirc_t Mode2LircDevice::read(int timeout) {
     if (!canRecMode2()) {
         return 0;
     }
+
+    pollfd pfd = {
+        .fd = fileDescriptor,
+        .events = POLLIN,
+        .revents = 0
+    };
+    int rc = poll(&pfd, 1, timeout ? timeout : -1);
+    if (rc < 0)
+        return 0;
+    if (rc == 0)
+        return LircT::LircTType::TIMEOUT;
 
     lirc_t data;
     ssize_t actualLength = ::read(fileDescriptor, &data, sizeof(lirc_t));
@@ -67,32 +87,35 @@ lirc_t Mode2LircDevice::read() {
 }
 
 IrSequence* Mode2LircDevice::receive() {
-    microseconds_t data[MAXSIZE];
+    microseconds_t data[captureSize];
     unsigned index = 0;
-    while (index < MAXSIZE) {
-        lirc_t t = read();
+    while (index < captureSize) {
+        lirc_t t = read(index == 0 ? beginTimeout : endTimeout);
         if (t == 0)
-            return NULL;
+            return new IrSequence();
 
         LircT lircT(t);
-        if (index > 0 && lircT.isTerminal(t)) {
-            data[index++] = replacementEndingSilence;
+        if (lircT.isTerminal(t)) {
+            if (index > 0)
+                data[index++] = replacementEndingSilence;
             break;
         }
 
         if (index > 0 || lircT.isPulse()) // ignore leading spaces
             data[index++] = lircT.getDuration(t);
     }
-    size_t length = index;
-    microseconds_t* newData = new microseconds_t[length];
-    for (unsigned j = 0; j < length; j++)
+    if (index == 0)
+        return new IrSequence();
+
+    microseconds_t* newData = new microseconds_t[index];
+    for (unsigned j = 0; j < index; j++)
         newData[j] = data[j];
-    return new IrSequence(newData, length);
+    return new IrSequence(newData, index);
 }
 
 void Mode2LircDevice::mode2dump(std::ostream& stream) {
     while (true) {
-        lirc_t t = read();
+        lirc_t t = read(0);
         if (t == 0) {
             std::cerr << "0 received" << std::endl;
             return;

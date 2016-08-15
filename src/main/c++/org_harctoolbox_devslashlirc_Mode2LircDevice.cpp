@@ -91,7 +91,7 @@ JNIEXPORT jint JNICALL Java_org_harctoolbox_devslashlirc_Mode2LircDevice_getRecR
  */
 JNIEXPORT jint JNICALL Java_org_harctoolbox_devslashlirc_Mode2LircDevice_readNative
   (JNIEnv *env, jobject object) {
-    return getMode2LircDevice(env, object)->read();
+    return getMode2LircDevice(env, object)->read(0);
 }
 /*
  * Class:     org_harctoolbox_devslashlirc_Mode2LircDevice
@@ -127,4 +127,26 @@ JNIEXPORT jboolean JNICALL Java_org_harctoolbox_devslashlirc_Mode2LircDevice_can
 JNIEXPORT jboolean JNICALL Java_org_harctoolbox_devslashlirc_Mode2LircDevice_openNative
   (JNIEnv *env, jobject object) {
     return getMode2LircDevice(env, object)->open();
+}
+
+/*
+ * Class:     org_harctoolbox_devslashlirc_Mode2LircDevice
+ * Method:    setEndTimeout
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_harctoolbox_devslashlirc_Mode2LircDevice_setEndTimeout
+ (JNIEnv *env, jobject object, jint timeout) {
+    Mode2LircDevice* d = getMode2LircDevice(env, object);
+    d->setEndTimeout(timeout);
+}
+
+/*
+ * Class:     org_harctoolbox_devslashlirc_Mode2LircDevice
+ * Method:    setMaxCaptureLength
+ * Signature: (I)V
+ */
+JNIEXPORT void JNICALL Java_org_harctoolbox_devslashlirc_Mode2LircDevice_setMaxCaptureLength
+ (JNIEnv *env, jobject object, jint captureSize) {
+    Mode2LircDevice* d = getMode2LircDevice(env, object);
+    d->setCaptureSize(captureSize);
 }

@@ -31,6 +31,7 @@ protected:
     unsigned numberTransmitters;
     uint32_t recordingMode;  //LIRC_MODE_MODE2 or LIRC_MODE_LIRCCODE
     uint32_t features;
+    milliseconds_t beginTimeout;
 
     void report(const char *name, bool value, std::ostream& stream) const;
     bool reportValidity(std::ostream &stream = std::cout) const;
@@ -39,7 +40,7 @@ protected:
 
     bool canDo(uint32_t mask) const { return mask & features; }
 
-    LircDevice(const char *path);
+    LircDevice(const char *path = defaultFilename, milliseconds_t beginTimeout = defaultBeginTimeout);
     LircDevice(const LircDevice& orig);
     virtual bool open();
 
@@ -47,11 +48,20 @@ public:
     bool close();
     static const char *version;
     static const char *defaultFilename; // = "/dev/lirc0";
+    static const milliseconds_t defaultBeginTimeout = 5000U;
     static const uint32_t INVALID = UINT32_MAX;
 
     virtual ~LircDevice();
 
     bool isValid() const { return valid; }
+
+    milliseconds_t getBeginTimeout() const {
+        return beginTimeout;
+    }
+
+    void setBeginTimeout(milliseconds_t timeout) {
+        beginTimeout = timeout;
+    }
 
     /**
      * Prints a listing of the properties implemented on the stream supplied.
@@ -65,6 +75,7 @@ public:
     bool canSend() const { return canDo(LIRC_CAN_SEND_MASK); }
     bool canSetTransmitterMask() const { return canDo(LIRC_CAN_SET_TRANSMITTER_MASK); }
     bool canRec() const { return canDo(LIRC_CAN_REC_MASK); }
+    bool canSetRecTimeout() const { return canDo(LIRC_CAN_SET_REC_TIMEOUT); }
 
     // These are sort-of redundant, but let's leave them in
     bool canSendPulse() const { return canDo(LIRC_CAN_SEND_PULSE); }
@@ -79,7 +90,8 @@ public:
      */
     unsigned getNumberTransmitters() const { return numberTransmitters; }
 
-    /** Enable the set of transmitters specified in val, which  contains
+    /**
+     * Enable the set of transmitters specified in val, which  contains
     a  bit  mask  where  each enabled transmitter is a 1.  The first
     transmitter is encoded by the least significant bit, and so  on.
     When an invalid bit mask is given, for example a bit is set even
@@ -91,11 +103,28 @@ public:
         return ioctl(LIRC_SET_TRANSMITTER_MASK, mask);
     }
 
-#ifdef SUPPORT_NEVER_IMPLEMENTED_OPTIONS
-
-    bool canSetRecTimeout() const {
-        return canDo(LIRC_CAN_SET_REC_TIMEOUT);
+    /**
+              Set the integer value for IR inactivity timeout  (microseconds).
+              To  be  accepted, the value must be within the limits defined by
+              LIRC_GET_MIN_TIMEOUT and LIRC_GET_MAX_TIMEOUT.  A value of 0 (if
+              supported  by  the  hardware) disables all hardware timeouts and
+              data should be reported as soon as possible.  If the exact value
+              cannot  be  set,  then  the next possible value greater than the
+              given value should be set.
+     */
+    int setRecTimeout(int arg) {
+        return ioctl(LIRC_SET_REC_TIMEOUT, arg);
     }
+
+    /**
+     * Enable or disable timeout  packages.
+     * By  default, timeout reports should be turned off.
+     */
+    int setRecTimeoutReports(bool enable) {
+        return ioctl(LIRC_SET_REC_TIMEOUT_REPORTS, (int) enable);
+    }
+
+#ifdef SUPPORT_NEVER_IMPLEMENTED_OPTIONS
     bool canSendRaw() const {
         return canDo(LIRC_CAN_SEND_RAW);
     }
@@ -198,14 +227,6 @@ public:
 //              drivers,   LIRC_GET_MIN_TIMEOUT  and  LIRC_GET_MAX_TIMEOUT  will
 //              return the same value.
 //
-//       LIRC_SET_REC_TIMEOUT (int)
-//              Set the integer value for IR inactivity timeout  (microseconds).
-//              To  be  accepted, the value must be within the limits defined by
-//              LIRC_GET_MIN_TIMEOUT and LIRC_GET_MAX_TIMEOUT.  A value of 0 (if
-//              supported  by  the  hardware) disables all hardware timeouts and
-//              data should be reported as soon as possible.  If the exact value
-//              cannot  be  set,  then  the next possible value greater than the
-//              given value should be set.
 //
 //       LIRC_SET_REC_TIMEOUT_REPORTS (int)
 //              Enable (val is 1) or disable (val  is  0)  timeout  packages  in

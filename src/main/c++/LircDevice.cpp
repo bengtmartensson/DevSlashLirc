@@ -10,12 +10,12 @@
 #include <sys/ioctl.h>
 
 const char *LircDevice::defaultFilename = "/dev/lirc0";
-const char *LircDevice::version = "LircDevice 0.1.0";
+const char *LircDevice::version = "LircDevice " VERSION;
 
 static const int IOCTL_OK = 0;
 static const int IOCTL_ERROR = -1;
 
-LircDevice::LircDevice(const char *path) : valid(false),fileName(path),fileDescriptor(-1) {
+LircDevice::LircDevice(const char *path, milliseconds_t beginTimeout_) : valid(false),fileName(path),fileDescriptor(-1),beginTimeout(beginTimeout_) {
 }
 
 bool LircDevice::open() {
@@ -69,7 +69,8 @@ fileName(orig.fileName),
 fileDescriptor(orig.fileDescriptor),
 numberTransmitters(orig.numberTransmitters),
 recordingMode(orig.recordingMode),
-features(orig.features) {
+features(orig.features),
+beginTimeout(orig.beginTimeout) {
 }
 
 LircDevice::~LircDevice() {
@@ -114,6 +115,7 @@ void LircDevice::report(std::ostream& stream) const {
     report("canSetTransmitterMask", canSetTransmitterMask(), stream);
     report("canRecMode2", canRecMode2(), stream);
     report("canRecLircCode", canRecLircCode(), stream);
+    report("canSetRecTimeout", canSetRecTimeout(), stream);
 
 #ifdef SUPPORT_NEVER_IMPLEMENTED_OPTIONS
     report("canSendRaw", canSendRaw(), stream);
@@ -128,7 +130,6 @@ void LircDevice::report(std::ostream& stream) const {
     report("canNotifyDecoder", canNotifyDecoder(), stream);
     report("canMeasureCarrier", canMeasureCarrier(), stream);
     report("canUseWidebandReceiver", canUseWidebandReceiver(), stream);
-    report("canSetRecTimeout", canSetRecTimeout(), stream);
 #endif //SUPPORT_NEVER_IMPLEMENTED_OPTIONS
 }
 

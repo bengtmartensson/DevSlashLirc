@@ -131,6 +131,8 @@ public abstract class LircHardware implements Closeable {
 
     public abstract boolean canRec();
 
+    public abstract void setBeginTimeout(int timeout);
+
     /**
      * Returns true if the device is opened and working.
      * @return boolean

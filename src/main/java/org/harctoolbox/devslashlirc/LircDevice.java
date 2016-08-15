@@ -30,9 +30,11 @@ package org.harctoolbox.devslashlirc;
  */
 public abstract class LircDevice extends LircHardware {
     public static final String defaultDeviceName = "/dev/lirc0";
+    public static final int  defaultBeginTimeout = 5000;
 
-    public LircDevice(String deviceName, long nativePointer) {
+    public LircDevice(String deviceName, int beginTimeout, long nativePointer) {
         super(deviceName, nativePointer);
+        setBeginTimeout(beginTimeout);
     }
 
     @Override
@@ -58,6 +60,9 @@ public abstract class LircDevice extends LircHardware {
 
     @Override
     public native boolean isValid();
+
+    @Override
+    public final native void setBeginTimeout(int timeout);
 
     @Override
     public String toString() {

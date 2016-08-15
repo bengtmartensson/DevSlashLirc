@@ -7,7 +7,7 @@
     <groupId>org.harctoolbox</groupId>
     <artifactId>DevSlashLirc</artifactId>
     <packaging>jar</packaging>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
     <name>DevSlashLirc</name>
     <licenses>
         <license>
@@ -60,7 +60,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <skipTests>true</skipTests> <!-- requires hardware -->
+                    <skipTests>false</skipTests> <!-- requires hardware -->
                     <argLine>-Djava.library.path=${basedir}/native</argLine>
                 </configuration>
             </plugin>

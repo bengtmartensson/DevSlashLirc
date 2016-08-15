@@ -22,8 +22,6 @@ import org.testng.annotations.Test;
  */
 public class LircDeviceNGTest {
     private static LircDevice instance;
-    public LircDeviceNGTest() {
-    }
 
     @BeforeClass
     public static void setUpClass() throws LircDeviceException {
@@ -39,6 +37,9 @@ public class LircDeviceNGTest {
     public static void tearDownClass() throws Exception, Throwable {
         instance.close();
         assertFalse(instance.isValid());
+    }
+
+    public LircDeviceNGTest() {
     }
 
     @BeforeMethod
@@ -57,7 +58,7 @@ public class LircDeviceNGTest {
         System.out.println("getVersion");
 
         String result = instance.getVersion();
-        assertEquals(result, "LircDevice 0.1.0");
+        assertEquals(result, "LircDevice 0.2.0");
     }
 
     /**
@@ -128,5 +129,14 @@ public class LircDeviceNGTest {
         String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
         String result = instance.toString();
         assertEquals(result, expResult);
+    }
+
+    /**
+     * Test of setBeginTimeout method, of class LircDevice.
+     */
+    @Test
+    public void testSetBeginTimeout() {
+        System.out.println("setBeginTimeout");
+        instance.setBeginTimeout(1234);
     }
 }

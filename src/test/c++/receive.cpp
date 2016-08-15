@@ -15,6 +15,9 @@ int main(int argc, char** argv) {
     std::cerr << "Now fire an IR signal at the receiver." << std::endl;
 
     IrSequence *seq = lirconian.receive();
-    seq->dumpWithSigns();
+    if (seq != NULL)
+        seq->dumpWithSigns();
+    else
+        std::cerr << "NULL received." << std::endl;
 
 }

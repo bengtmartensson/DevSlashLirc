@@ -1,10 +1,17 @@
-JAVA_INCLUDE=/usr/lib/jvm/java/include
+ifneq ($(wildcard /usr/lib/jvm/java/include),)
+    JAVA_INCLUDE=/usr/lib/jvm/java/include
+else
+    JAVA_INCLUDE=/usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt/include
+endif
 JAVAH=javah
+DEFINES=--define VERSION=\"0.2.0\"
 GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
 INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) -I/usr/local/include/lirc/include -I.
 WARN=-Wall -Wextra -Werror -Wmissing-declarations
-OPT=-O0
+OPT=-O2
 DEBUG=-g
+STD=--std=c++11
+M=
 
 OBJS=LircT.o IrSequence.o \
 LircDevice.o Mode2LircDevice.o LircCodeLircDevice.o \
@@ -18,7 +25,7 @@ org_harctoolbox_devslashlirc_LircDevice.o
 #PROGS=lirconian newLircDevice reportMode2 yamaha_power_on repeat mode2dump receive
 
 
-all: libdevslashlirc.so libdevslashlirc.a ../../../native/libdevslashlirc.so
+all: libdevslashlirc.so libdevslashlirc.a
 
 org_harctoolbox_devslashlirc_LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircDevice.h
 org_harctoolbox_devslashlirc_Mode2LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_Mode2LircDevice.h
@@ -41,7 +48,7 @@ $(GENERATED)/org_harctoolbox_devslashlirc_%.h:
 	mkdir $@
 
 %.o: %.cpp
-	$(CXX) -o $@ $(WARN) $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
+	$(CXX) $(M) $(STD) $(DEFINES) -o $@ $(WARN) $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
 
 #%.o: %.c
 #	$(CC) -o $@ $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
@@ -55,7 +62,7 @@ libdevslashlirc.a: $(OBJS)
 	$(AR) rs $@ $(OBJS)
 
 libdevslashlirc.so: $(OBJS)
-	$(CXX) -shared -Wl,--export-dynamic -o $@ $(OBJS)
+	$(CXX) $(M) -shared -Wl,--export-dynamic -o $@ $(OBJS)
 
 #	$(CXX) -shared -o $@ $(OBJS) -Wl,-rpath -Wl,/usr/local/lib -Wl,--export-dynamic -llirc_driver -llirc
 

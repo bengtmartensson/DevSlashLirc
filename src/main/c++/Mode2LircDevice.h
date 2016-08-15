@@ -12,11 +12,21 @@ private:
 
     bool sendOdd(const lirc_t *data, unsigned length);
 
-public:
-    static const frequency_t defaultFrequency = 38000;
-    static const microseconds_t replacementEndingSilence = 100000;
+protected:
+    milliseconds_t endTimeout;
+    size_t captureSize;
 
-    Mode2LircDevice(const char *path = defaultFilename);
+public:
+    static const frequency_t defaultFrequency = 38000U;
+    static const microseconds_t replacementEndingSilence = 100000U;
+    static const milliseconds_t defaultEndTimeout = 200U;
+    static const size_t defaultCaptureSize = 250;
+
+    //Mode2LircDevice(const char *path = defaultFilename);
+    Mode2LircDevice(const char *path = defaultFilename = defaultFilename,
+            milliseconds_t beginTimeout = defaultBeginTimeout,
+            size_t captureSize = defaultCaptureSize,
+            milliseconds_t endTimeout = defaultEndTimeout);
     //Mode2LircDevice(const LircDevice& orig);
     //virtual ~Mode2LircDevice();
 
@@ -32,11 +42,28 @@ public:
     bool canSetSendCarrier() const { return canDo(LIRC_CAN_SET_SEND_CARRIER); }
     bool canGetRecResolution() const { return canDo(LIRC_CAN_GET_REC_RESOLUTION); }
 
+    milliseconds_t getEndTimeout() const {
+        return endTimeout;
+    }
+
+    void setEndTimeout(int timeout) {
+        endTimeout = timeout;
+        setRecTimeout(1000U * endTimeout); // do not care to check status
+    }
+
+    size_t getCaptureSize() const {
+        return captureSize;
+    }
+
+    void setCaptureSize(size_t captureSize_) {
+        captureSize = captureSize_;
+    }
+
     /**
      * Reads exactly one duration. Blocks.
      * @return duration as lirc_t.
      */
-    lirc_t read();
+    lirc_t read(int timeout);
 
     /**
      * Reads and dumps readings in mode2 format.

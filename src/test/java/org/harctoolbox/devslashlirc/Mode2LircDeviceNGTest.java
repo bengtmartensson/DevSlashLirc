@@ -15,9 +15,6 @@ public class Mode2LircDeviceNGTest {
 
     private static Mode2LircDevice instance;
 
-    public Mode2LircDeviceNGTest() {
-    }
-
     @BeforeClass
     public static void setUpClass() {
         LircHardware.loadLibrary();
@@ -32,6 +29,9 @@ public class Mode2LircDeviceNGTest {
     @AfterClass
     public static void tearDownClass() throws Exception {
         instance.close();
+    }
+    
+    public Mode2LircDeviceNGTest() {
     }
 
     @BeforeMethod
@@ -159,5 +159,23 @@ public class Mode2LircDeviceNGTest {
         String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
         String result = instance.toString();
         assertEquals(result, expResult);
+    }
+
+    /**
+     * Test of setEndTimeout method, of class Mode2LircDevice.
+     */
+    @Test
+    public void testSetEndTimeout() {
+        System.out.println("setEndTimeout");
+        instance.setEndTimeout(123);
+    }
+
+    /**
+     * Test of setMaxCaptureLength method, of class Mode2LircDevice.
+     */
+    @Test
+    public void testSetMaxCaptureLength() {
+        System.out.println("setMaxCaptureLength");
+        instance.setMaxCaptureLength(100);
     }
 }

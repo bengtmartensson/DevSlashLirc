@@ -10,3 +10,6 @@ buildNumber.properties
 *.o
 *.a
 *.so
+hs_err_pid*.log
+doxygen_sqlite3.db
+native

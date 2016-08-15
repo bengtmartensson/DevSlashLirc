@@ -13,7 +13,7 @@ all: test
 	$(CXX) -o $@ $(WARN) $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
 
 %: %.cpp
-	$(CXX) -o $@ $(WARN) $(INCLUDES) -Wl,-rpath -Wl,../../../native -O0 -g $(CFLAGS) $< -L../../../native -ldevslashlirc
+	$(CXX) -o $@ $(WARN) $(INCLUDES) -Wl,-rpath -Wl,../../../target -O0 -g $(CFLAGS) $< -L../../../target -ldevslashlirc
 
 test: $(TEST_PROGS)
 	./reportMode2

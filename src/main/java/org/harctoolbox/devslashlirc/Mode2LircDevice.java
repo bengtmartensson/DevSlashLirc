@@ -26,20 +26,54 @@ import java.util.logging.Logger;
  */
 public class Mode2LircDevice extends LircDevice implements IMode2 {
 
+    private static final int defaultCaptureSize = 250;
+    private static final int defaultEndTimeout = 200;
+
     private native static long newMode2LircDevice(String deviceName);
+
+    public static void main(String[] args) {
+        int nec1_frequency = 38400;
+        int[] nec1_122_29 = {
+            9024, 4512, 564, 564, 564, 1692, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 1692, 564, 564, 564, 1692, 564, 564, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 1692, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 39756
+        };
+        LircHardware.loadLibrary();
+        try (Mode2LircDevice device = new Mode2LircDevice("/dev/lirc0", 10000, 100, 222)) {
+            System.out.println(device.getVersion());
+            device.open();
+            device.report();
+            System.out.println(device);
+            System.out.println(">>>>>>>>>>>>>>>>>> Now shoot IR!");
+            int[] result = device.receive();
+            for (int i = 0; i < result.length; i++)
+                System.out.print((i % 2 == 0 ? "+" : "-") + result[i] + " ");
+            System.out.println();
+            device.setTransmitterMask(1);
+            device.send(nec1_122_29, nec1_frequency);
+        } catch (LircDeviceException ex) {
+            Logger.getLogger(Mode2LircDevice.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public Mode2LircDevice(String deviceName, int beginTimeout, int captureSize, int endTimeout) {
+        super(deviceName, beginTimeout, newMode2LircDevice(deviceName));
+        setMaxCaptureLength(captureSize);
+        setEndTimeout(endTimeout);
+    }
+    
+    public Mode2LircDevice() throws LircDeviceException {
+        this(defaultDeviceName, defaultBeginTimeout, defaultCaptureSize, defaultEndTimeout);
+    }
+
+    public Mode2LircDevice(String deviceName) throws LircDeviceException {
+        this(deviceName, defaultBeginTimeout, defaultCaptureSize, defaultEndTimeout);
+    }
+
     private native int getRecResolutionNative();
     private native void setSendCarrierNative(int frequency);
     private native void sendNative(int[] data);
     private native int readNative();
     private native int[] receiveNative();
 
-    public Mode2LircDevice(String deviceName) {
-        super(deviceName, newMode2LircDevice(deviceName));
-    }
-
-    public Mode2LircDevice() throws LircDeviceException {
-        this(defaultDeviceName);
-    }
 
     @Override
     protected native boolean openNative();
@@ -93,33 +127,16 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
     public native void report();
 
     @Override
+    public final native void setEndTimeout(int timeout);
+
+    @Override
+    public final native void setMaxCaptureLength(int maxCaptureLength);
+
+    @Override
     public String toString() {
         return "mode2 "
                 + (canSetSendCarrier() ? " setCarr." : "")
                 + (canGetRecResolution() ? " getRecRes." : "")
                 + super.toString();
-    }
-
-    public static void main(String[] args) {
-        int nec1_frequency = 38400;
-        int[] nec1_122_29 = {
-            9024, 4512, 564, 564, 564, 1692, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 1692, 564, 564, 564, 1692, 564, 564, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 1692, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 564, 564, 564, 564, 564, 564, 1692, 564, 1692, 564, 1692, 564, 39756
-        };
-        LircHardware.loadLibrary();
-        try (Mode2LircDevice device = new Mode2LircDevice()) {
-            System.out.println(device.getVersion());
-            device.open();
-            device.report();
-            System.out.println(device);
-            System.out.println(">>>>>>>>>>>>>>>>>> Now shoot IR!");
-            int[] result = device.receive();
-            for (int i = 0; i < result.length; i++)
-                System.out.print((i%2==0 ? "+" : "-") + result[i] + " ");
-            System.out.println();
-            device.setTransmitterMask(1);
-            device.send(nec1_122_29, nec1_frequency);
-        } catch (LircDeviceException ex) {
-            Logger.getLogger(Mode2LircDevice.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 }

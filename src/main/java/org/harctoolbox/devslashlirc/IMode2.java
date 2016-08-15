@@ -96,6 +96,10 @@ public interface IMode2 extends Closeable {
 
     void setTransmitterMask(int mask) throws NotSupportedException, NonExistentTransmitterException, LircDeviceException;
 
+    void setMaxCaptureLength(int maxCaptureLength);
+
+    void setEndTimeout(int timeout);
+
     @Override
     String toString();
 }
