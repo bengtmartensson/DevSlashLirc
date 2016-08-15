@@ -4,7 +4,7 @@ clean:
 	mvn clean
 	(cd src/main/c++ && make clean)
 	(cd src/test/c++ && make clean)
-	rm -r hs_err*.log  doxygen_sqlite3.db
+	rm -f hs_err*.log  doxygen_sqlite3.db
 
 doxygen: | target
 	doxygen
