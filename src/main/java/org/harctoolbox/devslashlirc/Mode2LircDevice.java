@@ -57,9 +57,9 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
     public Mode2LircDevice(String deviceName, int beginTimeout, int captureSize, int endTimeout) {
         super(deviceName, beginTimeout, newMode2LircDevice(deviceName));
         setMaxCaptureLength(captureSize);
-        setEndTimeout(endTimeout);
+        setEndingTimeout(endTimeout);
     }
-    
+
     public Mode2LircDevice() throws LircDeviceException {
         this(defaultDeviceName, defaultBeginTimeout, defaultCaptureSize, defaultEndTimeout);
     }
@@ -127,7 +127,11 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
     public native void report();
 
     @Override
-    public final native void setEndTimeout(int timeout);
+    public final void setEndingTimeout(int timeout) {
+        setEndTimeout(timeout);
+    }
+
+    private final native void setEndTimeout(int timeout); // TODO change name in code
 
     @Override
     public final native void setMaxCaptureLength(int maxCaptureLength);

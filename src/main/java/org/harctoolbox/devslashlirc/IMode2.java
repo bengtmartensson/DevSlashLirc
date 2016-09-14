@@ -98,7 +98,7 @@ public interface IMode2 extends Closeable {
 
     void setMaxCaptureLength(int maxCaptureLength);
 
-    void setEndTimeout(int timeout);
+    void setEndingTimeout(int timeout);
 
     @Override
     String toString();

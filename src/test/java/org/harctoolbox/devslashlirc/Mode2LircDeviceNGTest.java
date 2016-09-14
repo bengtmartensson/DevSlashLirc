@@ -30,7 +30,7 @@ public class Mode2LircDeviceNGTest {
     public static void tearDownClass() throws Exception {
         instance.close();
     }
-    
+
     public Mode2LircDeviceNGTest() {
     }
 
@@ -165,9 +165,9 @@ public class Mode2LircDeviceNGTest {
      * Test of setEndTimeout method, of class Mode2LircDevice.
      */
     @Test
-    public void testSetEndTimeout() {
+    public void testSetEndingTimeout() {
         System.out.println("setEndTimeout");
-        instance.setEndTimeout(123);
+        instance.setEndingTimeout(123);
     }
 
     /**
