@@ -7,9 +7,9 @@ package org.harctoolbox.devslashlirc;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -18,12 +18,11 @@ import org.testng.annotations.Test;
 
 /**
  *
- * @author bengt
  */
 public class LircDeviceNGTest {
     private static LircDevice instance;
 
-    @BeforeClass
+    @BeforeClass(groups = {"hardware"})
     public static void setUpClass() throws LircDeviceException {
         LircHardware.loadLibrary();
         Mode2LircDevice thing = new Mode2LircDevice();
@@ -33,7 +32,7 @@ public class LircDeviceNGTest {
         instance = thing;
     }
 
-    @AfterClass
+    @AfterClass(groups = {"hardware"})
     public static void tearDownClass() throws Exception, Throwable {
         instance.close();
         assertFalse(instance.isValid());
@@ -53,7 +52,7 @@ public class LircDeviceNGTest {
     /**
      * Test of getVersion method, of class LircDevice.
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testGetVersion() {
         System.out.println("getVersion");
 
@@ -65,7 +64,7 @@ public class LircDeviceNGTest {
      * Test of setTransmitterMask method, of class LircDevice.
      * @throws LircDeviceException
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testSetTransmitterMask() throws LircDeviceException {
         System.out.println("setTransmitterMask");
         int mask = 1;
@@ -79,7 +78,7 @@ public class LircDeviceNGTest {
     /**
      * Test of getNumberTransmitters method, of class LircDevice.
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testGetNumberTransmitters() {
         System.out.println("getNumberTransmitters");
         int expResult = 0;
@@ -90,7 +89,7 @@ public class LircDeviceNGTest {
     /**
      * Test of canSend method, of class LircDevice.
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testCanSend() {
         System.out.println("canSend");
         boolean expResult = true;
@@ -101,7 +100,7 @@ public class LircDeviceNGTest {
     /**
      * Test of canSetTransmitterMask method, of class LircDevice.
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testCanSetTransmitterMask() {
         System.out.println("canSetTransmitterMask");
         boolean expResult = true;
@@ -112,7 +111,7 @@ public class LircDeviceNGTest {
     /**
      * Test of canRec method, of class LircDevice.
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testCanRec() {
         System.out.println("canRec");
         boolean expResult = true;
@@ -123,7 +122,7 @@ public class LircDeviceNGTest {
     /**
      * Test of toString method, of class LircDevice.
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testToString() {
         System.out.println("toString");
         String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
@@ -134,7 +133,7 @@ public class LircDeviceNGTest {
     /**
      * Test of setBeginTimeout method, of class LircDevice.
      */
-    @Test
+    @Test(groups = {"hardware"})
     public void testSetBeginTimeout() {
         System.out.println("setBeginTimeout");
         instance.setBeginTimeout(1234);

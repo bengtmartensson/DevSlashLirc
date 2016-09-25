@@ -60,8 +60,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.19.1</version>
                 <configuration>
-                    <skipTests>false</skipTests> <!-- requires hardware -->
-                    <argLine>-Djava.library.path=${basedir}/native</argLine>
+                    <groups>no-hardware</groups>
+                    <!--groups>hardware</groups--> <!-- requires hardware on /dev/lirc0-->
+                    <skipTests>false</skipTests>
+                    <argLine>-Djava.library.path=${basedir}/native -Dfile.encoding=${project.build.sourceEncoding}</argLine>
                 </configuration>
             </plugin>
         </plugins>
@@ -70,7 +72,7 @@
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
-            <version>6.8.1</version>
+            <version>6.9.10</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

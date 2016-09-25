@@ -15,7 +15,7 @@ public class Mode2LircDeviceNGTest {
 
     private static Mode2LircDevice instance;
 
-    @BeforeClass
+    @BeforeClass(groups = { "hardware"})
     public static void setUpClass() {
         LircHardware.loadLibrary();
         try {
@@ -26,7 +26,7 @@ public class Mode2LircDeviceNGTest {
         }
     }
 
-    @AfterClass
+    @AfterClass(groups = { "hardware"})
     public static void tearDownClass() throws Exception {
         instance.close();
     }
@@ -45,7 +45,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of canSetSendCarrier method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testCanSetSendCarrier() {
         System.out.println("canSetSendCarrier");
         boolean expResult = true;
@@ -56,7 +56,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of canGetRecResolution method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testCanGetRecResolution() {
         System.out.println("canGetRecResolution");
         boolean expResult = false;
@@ -67,7 +67,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of send method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testSend_intArr() {
         System.out.println("send");
         int[] data = new int[1];
@@ -99,7 +99,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of setSendCarrier method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testSetSendCarrier() {
         System.out.println("setSendCarrier");
         int frequency = 40000;
@@ -113,7 +113,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of getResolution method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testGetResolution() {
         System.out.println("getResolution");
         try {
@@ -144,7 +144,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of report method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testReport() {
         System.out.println("report");
         instance.report();
@@ -153,7 +153,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of toString method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testToString() {
         System.out.println("toString");
         String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
@@ -164,7 +164,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of setEndTimeout method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testSetEndingTimeout() {
         System.out.println("setEndTimeout");
         instance.setEndingTimeout(123);
@@ -173,7 +173,7 @@ public class Mode2LircDeviceNGTest {
     /**
      * Test of setMaxCaptureLength method, of class Mode2LircDevice.
      */
-    @Test
+    @Test(groups = { "hardware"})
     public void testSetMaxCaptureLength() {
         System.out.println("setMaxCaptureLength");
         instance.setMaxCaptureLength(100);
