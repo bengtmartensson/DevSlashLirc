@@ -37,11 +37,13 @@ bool LircDevice::open() {
         return false;
     }
 
+    // man lirc(4) says:
+    // "If  a device returns an error code for LIRC_GET_REC_MODE, it is safe to
+    //   assume it is not a lirc device."
+    // Therefore the following extremely bizarre code
     status = ::ioctl(fileDescriptor, LIRC_GET_REC_MODE, &recordingMode);
-    if (status != IOCTL_OK) {
-        std::cerr << "Error: cannot get recording mode" << status << std::endl;
-        return false;
-    }
+    if (status != IOCTL_OK)
+        recordingMode = LIRC_MODE_MODE2;
 
     if ((recordingMode != LIRC_MODE_MODE2) && (recordingMode != LIRC_MODE_LIRCCODE)) {
         std::cerr << "This cannot happen!" << std::endl;
