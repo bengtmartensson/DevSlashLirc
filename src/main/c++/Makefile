@@ -6,7 +6,7 @@ endif
 JAVAH=javah
 DEFINES=--define VERSION=\"0.2.0\"
 GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
-INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) -I/usr/local/include/lirc/include -I.
+INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) -I.
 WARN=-Wall -Wextra -Werror -Wmissing-declarations
 OPT=-O2
 DEBUG=-g

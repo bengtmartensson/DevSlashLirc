@@ -1,6 +1,6 @@
 #pragma once
 
-#include <media/lirc.h>
+#include <linux/lirc.h>
 #include <iostream>
 #include "InfraredTypes.h"
 
