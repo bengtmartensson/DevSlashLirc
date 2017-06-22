@@ -3,6 +3,7 @@
 #include <linux/lirc.h>
 #include <iostream>
 #include "InfraredTypes.h"
+#include "version.h"
 
 // In the future, this may be turned into an abstract class having derived classes
 // FileLircDevice, FIFOLircDevice, TcpLircDevice etc.

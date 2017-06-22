@@ -4,11 +4,10 @@ else
     JAVA_INCLUDE=/usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt/include
 endif
 JAVAH=javah
-DEFINES=--define VERSION=\"0.2.0\"
 GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
 
 # Where linux/lirc.h is to be found
-LIRC_INCLUDE=-Ifallback
+#LIRC_INCLUDE=-Ifallback
 INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) $(LIRC_INCLUDE) -I.
 WARN=-Wall -Wextra -Werror -Wmissing-declarations
 OPT=-O2
