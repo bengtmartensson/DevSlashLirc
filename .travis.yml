@@ -1,0 +1,19 @@
+sudo: required
+notifications:
+email: false
+language: java
+jdk:
+- oraclejdk8
+before_install:
+- sudo add-apt-repository ppa:dns/gnu -y
+- sudo apt-get update -qq
+install:
+- sudo apt-get install -y --force-yes autoconf
+script:
+- make dist
+- ls -lh target
+- tools/upload.sh target/*.zip
+branches:
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:ci-build)$/
