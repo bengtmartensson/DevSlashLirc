@@ -13,3 +13,4 @@ buildNumber.properties
 hs_err_pid*.log
 doxygen_sqlite3.db
 native
+junk

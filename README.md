@@ -1,4 +1,4 @@
-# DevSlashLirc &mdash; Object oriented access to `/dev/lirc`-hardware. [![Build Status](https://travis-ci.org/bengtmartensson/DevSlashLirc.svg?branch=master)](https://travis-ci.org/bengtmartensson/DevSlashLirc)
+# DevSlashLirc &mdash; Object oriented access to `/dev/lirc`-hardware.
 
 This library makes objects from `/dev/lirc`-hardware. These objects have properties like `canSend` etc.,
 indicating the capabilities of the currently connected hardwarec, and methods like `send` and `receive`
