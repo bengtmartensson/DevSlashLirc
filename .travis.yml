@@ -1,14 +1,13 @@
 sudo: required
 notifications:
 email: false
-language: java
+language: java cpp
+packages: g++-6
 jdk:
 - oraclejdk8
 before_install:
 - sudo add-apt-repository ppa:dns/gnu -y
 - sudo apt-get update -qq
-install:
-- sudo apt-get install -y --force-yes autoconf
 script:
 - make dist
 - ls -lh target

@@ -6,7 +6,10 @@ endif
 JAVAH=javah
 DEFINES=--define VERSION=\"0.2.0\"
 GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
-INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) -I.
+
+# Where linux/lirc.h is to be found
+LIRC_INCLUDE=-Ifallback
+INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) $(LIRC_INCLUDE) -I.
 WARN=-Wall -Wextra -Werror -Wmissing-declarations
 OPT=-O2
 DEBUG=-g
