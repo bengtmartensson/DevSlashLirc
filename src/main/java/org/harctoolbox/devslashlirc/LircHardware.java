@@ -30,7 +30,7 @@ public abstract class LircHardware implements Closeable {
     private static boolean libLoaded = false;
 
     /**
-     * Loads the native library from a system library.
+     * Loads the native library from a system directory.
      * This function, or the version with argument,
      * must be called before instantiating the class.
      * @throws UnsatisfiedLinkError If loading fails
@@ -40,11 +40,12 @@ public abstract class LircHardware implements Closeable {
     }
 
     /**
-     * Loads the library, either given as argument (preferred), or, ignoring the argument,
-     * from a system library. This function, or the version without argument,
+     * Loads the native library given as argument (preferred),
+     * or, if the argument is null, from a system directory.
+     * This function, or the version without argument,
      * must be called before instantiating the class.
      * @param path Either the path name of the library, or the path name of the containing
-     * directory.
+     * directory. If null, use system directory.
      * @throws UnsatisfiedLinkError If loading fails
      */
     public static void loadLibrary(File path) throws UnsatisfiedLinkError {
