@@ -6,7 +6,8 @@ endif
 JAVAH=javah
 GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
 
-# Where linux/lirc.h is to be found
+# Where linux/lirc.h is to be found. "Should" now be a part of the system.
+# Use the next line if your system does not have it.
 #LIRC_INCLUDE=-Ifallback
 INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) $(LIRC_INCLUDE) -I.
 WARN=-Wall -Wextra -Werror -Wmissing-declarations
@@ -27,18 +28,12 @@ org_harctoolbox_devslashlirc_LircDevice.o
 #PROGS=lirconian newLircDevice reportMode2 yamaha_power_on repeat mode2dump receive
 
 
-all: libdevslashlirc.so libdevslashlirc.a
+all: libdevslashlirc.so libdevslashlirc.a ../../../native/libdevslashlirc.so
 
 org_harctoolbox_devslashlirc_LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircDevice.h
 org_harctoolbox_devslashlirc_Mode2LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_Mode2LircDevice.h
 org_harctoolbox_devslashlirc_LircCodeLircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircCodeLircDevice.h
 
-
-#	$(GENERATED_SRC)/org_harctoolbox_devslashlirc_LircDevice.h \
-#	$(GENERATED_SRC)/org_harctoolbox_devslashlirc_LircCodeLircDevice.h \
-#	$(GENERATED_SRC)/org_harctoolbox_devslashlirc_Mode2LircDevice.h \
-
-#target/classes/org/harctoolbox/devslashlirc/%.class
 
 $(GENERATED)/org_harctoolbox_devslashlirc_%.h:
 	$(JAVAH) -o $@ -classpath ../../../target/classes org.harctoolbox.devslashlirc.$*
@@ -55,18 +50,11 @@ $(GENERATED)/org_harctoolbox_devslashlirc_%.h:
 #%.o: %.c
 #	$(CC) -o $@ $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
 
-
-
-#lirconian: lirconian.o libdevslashlirc.so
-#	$(CXX) -Wl,-rpath -Wl,. -o $@ $< -L. -ldevslashlirc
-
 libdevslashlirc.a: $(OBJS)
 	$(AR) rs $@ $(OBJS)
 
 libdevslashlirc.so: $(OBJS)
 	$(CXX) $(M) -shared -Wl,--export-dynamic -o $@ $(OBJS)
-
-#	$(CXX) -shared -o $@ $(OBJS) -Wl,-rpath -Wl,/usr/local/lib -Wl,--export-dynamic -llirc_driver -llirc
 
 #%: tests/%.cpp libdevslashlirc.so
 #	$(CXX) -o $@ $(WARN) $(INCLUDES) -Wl,-rpath -Wl,. -O0 -g $(CFLAGS) $< -L. -ldevslashlirc
