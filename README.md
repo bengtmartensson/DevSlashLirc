@@ -25,6 +25,7 @@ The C++-code uses the ("non-portable") `#pragma once` instead of the traditional
 
 The C++ code is compiled into a shared library. This can be linked into application programs (see the test
 programs in `src/test/c++`) or used as a JNI library for accessing it from Java.
+Also a static library is built.
 
 As `man 4 lirc` shows, there is a large number of hardly ever implemented properties supported. I have followed
 the "agile" commandment _maximize the amount of work not done_, and simply ignored the ones not useful or not
@@ -52,3 +53,23 @@ The command
 creates the Doxygen and Javadoc documentation.
 
 The code is entirely written from scratch (not counting the branch `lircdriver`).
+
+## Usage
+There is no "install". Just copy the `so` file and the `jar` file to anywhere you like.
+(Or use maven instead of the latter.)
+
+For C++ (or a similar language), just link with the shared library `libdevslashlirc.so`
+(alternatively the static library `libdevslashlirc.a`) in the usual manner.
+
+For Java, copy `libdevslashlirc.so` to an "arbitrary" location. In the Java code,
+that library must be loaded with `org.harctoolbox.devslashlirc.LircHardware.loadLibrary()`.
+There are two possibilites:
+
+1. Either call `loadLibrary()` without arguments, (see
+`src/test/java/org/harctoolbox/devslashlirc/Mode2LircDeviceNGTest.java` for an example),
+in which case the actual directory has to be given to the JVM using the `-Djava.library.path`
+option (like `java -Djava.library.path=/usr/local/lib` ...), or,
+
+2. Call `loadLibrary(File)` with argument, either the path name of the library,
+or the path name of the containing directory.
+For example `LircHardware.loadLibrary(new File("/home/trump/covfefe/libdevslashlirc.so"))`.
