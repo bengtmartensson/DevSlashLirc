@@ -57,7 +57,7 @@ public class LircDeviceNGTest {
         System.out.println("getVersion");
 
         String result = instance.getVersion();
-        assertEquals(result, "LircDevice 0.2.0");
+        assertEquals(result, "LircDevice 0.2.1");
     }
 
     /**
@@ -81,7 +81,7 @@ public class LircDeviceNGTest {
     @Test(groups = {"hardware"})
     public void testGetNumberTransmitters() {
         System.out.println("getNumberTransmitters");
-        int expResult = 0;
+        int expResult = 2;
         int result = instance.getNumberTransmitters();
         assertEquals(result, expResult);
     }
@@ -125,7 +125,7 @@ public class LircDeviceNGTest {
     @Test(groups = {"hardware"})
     public void testToString() {
         System.out.println("toString");
-        String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
+        String expResult = "mode2  setCarr. send rec. setTM #xmtrs=2";
         String result = instance.toString();
         assertEquals(result, expResult);
     }

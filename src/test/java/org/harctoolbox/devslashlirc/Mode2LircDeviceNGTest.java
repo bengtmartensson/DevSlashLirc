@@ -156,7 +156,7 @@ public class Mode2LircDeviceNGTest {
     @Test(groups = { "hardware"})
     public void testToString() {
         System.out.println("toString");
-        String expResult = "mode2  setCarr. send rec. setTM #xmtrs=0";
+        String expResult = "mode2  setCarr. send rec. setTM #xmtrs=2";
         String result = instance.toString();
         assertEquals(result, expResult);
     }
