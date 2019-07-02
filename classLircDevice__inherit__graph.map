@@ -1,0 +1,5 @@
+<map id="LircDevice" name="LircDevice">
+<area shape="rect" id="node1" title="This abstract class contains the common functionality of the derived classes." alt="" coords="115,5,205,32"/>
+<area shape="rect" id="node2" href="$classLircCodeLircDevice.html" title="This class is a LIRC_MODE_LIRCCODE device as per lirc(4)." alt="" coords="5,80,152,107"/>
+<area shape="rect" id="node3" href="$classMode2LircDevice.html" title="This class is a LIRC_MODE_MODE2 device as per lirc(4)." alt="" coords="176,80,309,107"/>
+</map>

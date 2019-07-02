@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$classLircDevice.html" title="This abstract class contains the common functionality of the derived classes." alt="" coords="5,31,96,57"/>
+<area shape="rect" id="node2" href="$classLircCodeLircDevice.html" title="This class is a LIRC_MODE_LIRCCODE device as per lirc(4)." alt="" coords="144,5,291,32"/>
+<area shape="rect" id="node3" href="$classMode2LircDevice.html" title="This class is a LIRC_MODE_MODE2 device as per lirc(4)." alt="" coords="151,56,284,83"/>
+</map>

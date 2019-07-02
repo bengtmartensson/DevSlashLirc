@@ -1,0 +1,13 @@
+<map id="src/main/c++/InfraredTypes.h" name="src/main/c++/InfraredTypes.h">
+<area shape="rect" id="node1" title="This file defines some general data types that are used in the library." alt="" coords="396,5,611,32"/>
+<area shape="rect" id="node2" href="$IrSequence_8h.html" title=" " alt="" coords="183,80,381,107"/>
+<area shape="rect" id="node7" href="$LircDevice_8h.html" title=" " alt="" coords="406,80,601,107"/>
+<area shape="rect" id="node10" href="$LircT_8h.html" title=" " alt="" coords="713,80,869,107"/>
+<area shape="rect" id="node3" href="$IrSequence_8cpp.html" title=" " alt="" coords="5,162,220,189"/>
+<area shape="rect" id="node4" href="$Mode2LircDevice_8h.html" title=" " alt="" coords="296,162,535,189"/>
+<area shape="rect" id="node5" href="$LircDevice_8cpp.html" title=" " alt="" coords="231,251,442,278"/>
+<area shape="rect" id="node6" href="$Mode2LircDevice_8cpp.html" title=" " alt="" coords="466,251,719,278"/>
+<area shape="rect" id="node8" href="$LircCodeLircDevice_8h.html" title=" " alt="" coords="559,155,754,196"/>
+<area shape="rect" id="node9" href="$LircCodeLircDevice_8cpp.html" title=" " alt="" coords="743,244,938,285"/>
+<area shape="rect" id="node11" href="$LircT_8cpp.html" title=" " alt="" coords="829,162,999,189"/>
+</map>
