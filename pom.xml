@@ -96,16 +96,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <!--archive>
-                        <manifest>
-                            <mainClass>org.harctoolbox.IrpMaster.IrpMaster</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs-->
                     <descriptors>
-                        <!--descriptor>src/assembly/jar-with-dependencies.xml</descriptor-->
                         <descriptor>src/assembly/target.xml</descriptor>
                     </descriptors>
                 </configuration>
