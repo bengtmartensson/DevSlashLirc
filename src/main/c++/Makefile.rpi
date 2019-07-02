@@ -1,0 +1,51 @@
+JAVA_INCLUDE=/usr/lib/jvm/java/include
+JAVAH=javah
+GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
+INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) -I /usr/include/lirc -I /usr/lib/jvm/jdk-7-oracle-arm-vfp-hflt/include  -I /usr/lib/jvm/jdk-7-oracle-arm-vfp-hflt/include/linux -I/usr/include/lirc/include -I.
+WARN=-Wall -Wextra -Werror -Wmissing-declarations
+OPT=-O0
+DEBUG=-g
+
+OBJS=LircT.o IrSequence.o \
+LircDevice.o Mode2LircDevice.o LircCodeLircDevice.o \
+org_harctoolbox_devslashlirc_Mode2LircDevice.o \
+org_harctoolbox_devslashlirc_LircCodeLircDevice.o \
+org_harctoolbox_devslashlirc_LircDevice.o \
+Mode2LircDriver.o \
+LircDriver.o LircCodeLircDriver.o \
+lirc_log.o driver.o \
+org_harctoolbox_devslashlirc_LircDriver.o \
+org_harctoolbox_devslashlirc_Mode2LircDriver.o org_harctoolbox_devslashlirc_LircCodeLircDriver.o
+
+all: libdevslashlirc.so ../../../native/libdevslashlirc.so
+
+org_harctoolbox_devslashlirc_LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircDevice.h
+org_harctoolbox_devslashlirc_Mode2LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_Mode2LircDevice.h
+org_harctoolbox_devslashlirc_LircCodeLircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircCodeLircDevice.h
+org_harctoolbox_devslashlirc_LircDriver.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircDriver.h
+org_harctoolbox_devslashlirc_Mode2LircDriver.o: $(GENERATED)/org_harctoolbox_devslashlirc_Mode2LircDriver.h
+org_harctoolbox_devslashlirc_LircCodeLircDriver.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircCodeLircDriver.h
+
+$(GENERATED)/org_harctoolbox_devslashlirc_%.h:
+	$(JAVAH) -o $@ -classpath ../../../target/classes org.harctoolbox.devslashlirc.$*
+
+../../../native/libdevslashlirc.so: libdevslashlirc.so | ../../../native
+	cp $< $@
+
+../../../native:
+	mkdir $@
+
+%.o: %.cpp
+	$(CXX) -o $@ $(WARN) $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
+
+%.o: %.c
+	$(CC) -o $@ $(WARN) $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
+
+libdevslashlirc.a: $(OBJS)
+	$(AR) rs $@ $(OBJS)
+
+libdevslashlirc.so: $(OBJS)
+	$(CXX) -shared -Wl,--export-dynamic -o $@ $(OBJS)
+
+clean:
+	rm -f *.o *.a *.so $(PROGS)
