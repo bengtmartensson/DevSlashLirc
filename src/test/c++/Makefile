@@ -1,5 +1,5 @@
 JAVA_INCLUDE=/usr/lib/jvm/java/include
-GENERATED=../../../target/generated-sources/c++
+GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
 INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) -I/usr/local/include/lirc/include -I../../main/c++
 WARN=-Wall -Wextra
 OPT=-O0

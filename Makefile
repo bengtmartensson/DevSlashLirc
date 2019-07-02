@@ -17,6 +17,9 @@ doxygen: | target
 	doxygen
 	mvn javadoc:javadoc
 
+gh-pages:
+	tools/update-gh-pages.sh
+
 doc: doxygen
 	-xdg-open target/api-doc/index.html
 
@@ -43,7 +46,7 @@ target/libdevslashlirc.so: $(JAVAH_MARKER) | native
 
 libs: target/libdevslashlirc.so native/libdevslashlirc.so_x86-64 native/libdevslashlirc.so_x86-32
 
-natives: native/Linux-amd64/libdevslashlirc.so native/Linux-i386/libdevslashlirc.so
+natives: native/Linux-amd64/libdevslashlirc.so native/Linux-i386/libdevslashlirc.so native/Linux-arm
 #native/Linux-arm/libdevslashlirc.so
 
 native/Linux-amd64/libdevslashlirc.so: $(JAVAH_MARKER) | native/Linux-amd64
@@ -57,9 +60,15 @@ native/Linux-i386/libdevslashlirc.so: $(JAVAH_MARKER) | native/Linux-i386
 	cp src/main/c++/libdevslashlirc.so $@
 
 # Not yet working
-native/Linux-arm/libdevslashlirc.so: $(JAVAH_MARKER) | native/Linux-arm
-	(cd src/main/c++ && make clean)
-	(cd src/main/c++ && make CXX=arm-linux-gnu-c++)
-	cp src/main/c++/libdevslashlirc.so $@
+# Until cross compiling is working, this is a working procedure:
+#    make all
+# Log in RPi, cd to src/main/c++ there
+#    make clean all
+# Then
+#    cp target/libdevslashlirc.so native/Linux-arm
+#native/Linux-arm/libdevslashlirc.so: $(JAVAH_MARKER) | native/Linux-arm
+#	(cd src/main/c++ && make clean)
+#	(cd src/main/c++ && make CXX=arm-linux-gnu-c++)
+#	cp src/main/c++/libdevslashlirc.so $@
 
 .NOTPARALLEL:

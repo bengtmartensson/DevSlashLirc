@@ -1,14 +1,17 @@
 ifneq ($(wildcard /usr/lib/jvm/java/include),)
     JAVA_INCLUDE=/usr/lib/jvm/java/include
 else
-    JAVA_INCLUDE=/usr/lib/jvm/jdk-8-oracle-arm32-vfp-hflt/include
+    JAVA_INCLUDE=/usr/lib/jvm/java-8-openjdk-armhf/include
 endif
 JAVAH=javah
 GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
 
 # Where linux/lirc.h is to be found. "Should" now be a part of the system.
 # Use the next line if your system does not have it.
-#LIRC_INCLUDE=-Ifallback
+ifeq ($(wildcard /usr/include/linux/lirc.h),)
+LIRC_INCLUDE=-Ifallback
+endif
+
 INCLUDES = -I$(JAVA_INCLUDE) -I$(JAVA_INCLUDE)/linux -I$(GENERATED) $(LIRC_INCLUDE) -I.
 WARN=-Wall -Wextra -Werror -Wmissing-declarations
 OPT=-O2
@@ -28,7 +31,7 @@ org_harctoolbox_devslashlirc_LircDevice.o
 #PROGS=lirconian newLircDevice reportMode2 yamaha_power_on repeat mode2dump receive
 
 
-all: libdevslashlirc.so libdevslashlirc.a ../../../native/libdevslashlirc.so
+all: libdevslashlirc.so libdevslashlirc.a ../../../target/libdevslashlirc.so
 
 org_harctoolbox_devslashlirc_LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_LircDevice.h
 org_harctoolbox_devslashlirc_Mode2LircDevice.o: $(GENERATED)/org_harctoolbox_devslashlirc_Mode2LircDevice.h
@@ -38,10 +41,10 @@ org_harctoolbox_devslashlirc_LircCodeLircDevice.o: $(GENERATED)/org_harctoolbox_
 $(GENERATED)/org_harctoolbox_devslashlirc_%.h:
 	$(JAVAH) -o $@ -classpath ../../../target/classes org.harctoolbox.devslashlirc.$*
 
-../../../native/libdevslashlirc.so: libdevslashlirc.so | ../../../native
+../../../target/libdevslashlirc.so: libdevslashlirc.so | ../../../target
 	cp $< $@
 
-../../../native:
+../../../target:
 	mkdir $@
 
 %.o: %.cpp

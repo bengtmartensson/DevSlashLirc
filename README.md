@@ -46,6 +46,15 @@ Redundantly, to build, just issue the command
 
      make lib
 
+On an x86_64, this will build the libraries for x86_32 and x86_64.
+To build for another architecture without using a cross compiler,
+log in to an appropriate host, cd to `src/main/c++`, and issue the command
+
+    make clean all
+
+on that host. 
+Then copy the thus created `libdevslashlirc.so` to a desired location.
+
 The command
 
     make doc
