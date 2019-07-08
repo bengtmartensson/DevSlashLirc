@@ -57,7 +57,7 @@ public class LircDeviceNGTest {
         System.out.println("getVersion");
 
         String result = instance.getVersion();
-        assertEquals(result, "LircDevice 0.2.1");
+        assertEquals(result, "LircDevice 1.0.0"); // FIXME: manual update
     }
 
     /**
