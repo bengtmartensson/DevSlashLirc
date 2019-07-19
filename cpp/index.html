@@ -76,7 +76,9 @@ $(function() {
 <p>The code should compile on any platform supporting <code>/dev/lirc</code>, possibly after adapting the Makefile (see <a href="https://github.com/bengtmartensson/DevSlashLirc/issues/2">issue #2</a>).</p>
 <p>A natural extension would be to extend the library to support Lirc plugin drivers. This is discussed in <a href="https://github.com/bengtmartensson/DevSlashLirc/issues/3">issue #3</a>). There is also a branch containing some work in this directon, <code>lircdriver</code>.</p>
 <p>Maven is used to compile the Java parts. A Makefile compiles the C++ code, and also invokes the Maven process. Redundantly, to build, just issue the command </p><pre class="fragment"> make lib
-</pre><p>The command </p><pre class="fragment">make doc
+</pre><p>On an x86_64, this will build the libraries for x86_32 and x86_64. To build for another architecture without using a cross compiler, log in to an appropriate host, cd to <code>src/main/c++</code>, and issue the command </p><pre class="fragment">make clean all
+</pre><p>on that host. Then copy the thus created <code>libdevslashlirc.so</code> to a desired location.</p>
+<p>The command </p><pre class="fragment">make doc
 </pre><p>creates the Doxygen and Javadoc documentation.</p>
 <p>The code is entirely written from scratch (not counting the branch <code>lircdriver</code>).</p>
 <h2>Usage</h2>
@@ -91,7 +93,7 @@ $(function() {
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jul 2 2019 11:54:46 for DevSlashLirc by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 19 2019 15:15:14 for DevSlashLirc by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.15
 </small></address>
