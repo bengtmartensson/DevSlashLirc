@@ -2,6 +2,8 @@ ifneq ($(shell uname -m),x86_64)
     $(error Building on other architectures than x84_64 not yet supported)
 endif
 
+BROWSE=xdg-open
+
 dist: natives maven
 
 all: lib doxygen
@@ -12,16 +14,19 @@ clean:
 	(cd src/test/c++ && make clean)
 	rm -f hs_err*.log  doxygen_sqlite3.db
 	rm -r -f native
+	rm -rf gh-pages
 
-doxygen: | target
+target/api-doc/index.html: | target
 	doxygen
+
+target/site/apidocs/index.html:
 	mvn javadoc:javadoc
 
-gh-pages:
+gh-pages: target/api-doc/index.html target/site/apidocs/index.html
 	tools/update-gh-pages.sh
 
-doc: doxygen
-	-xdg-open target/api-doc/index.html
+doc: target/api-doc/index.html target/site/apidocs/index.html
+	$(foreach f,$^,$(shell $(BROWSE) $(f)))
 
 target native native/Linux-amd64 native/Linux-i386 native/Linux-arm:
 	mkdir -p $@
