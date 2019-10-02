@@ -45,9 +45,8 @@ $(JAVAH_MARKER):
 
 lib: target/libdevslashlirc.so
 
-target/libdevslashlirc.so: $(JAVAH_MARKER) | native
-	(cd src/main/c++ && make)
-	cp src/main/c++/libdevslashlirc.so $@
+target/libdevslashlirc.so: native/Linux-amd64/libdevslashlirc.so
+	cp $< $@
 
 libs: target/libdevslashlirc.so native/libdevslashlirc.so_x86-64 native/libdevslashlirc.so_x86-32
 

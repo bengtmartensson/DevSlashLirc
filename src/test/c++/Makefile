@@ -5,6 +5,12 @@ WARN=-Wall -Wextra
 OPT=-O0
 DEBUG=-g
 
+ifeq ($(shell uname -m),x86_64)
+    LIBDIR := ../../../native/Linux-amd64
+else
+    $(error Building on other architectures than x84_64 not yet supported)
+endif
+
 TEST_PROGS= reportMode2 yamaha_power_on mode2dump receive
 
 all: test
@@ -13,12 +19,12 @@ all: test
 	$(CXX) -o $@ $(WARN) $(INCLUDES) -fPIC $(OPT) $(DEBUG) $(CFLAGS) -c $<
 
 %: %.cpp
-	$(CXX) -o $@ $(WARN) $(INCLUDES) -Wl,-rpath -Wl,../../../target -O0 -g $(CFLAGS) $< -L../../../target -ldevslashlirc
+	$(CXX) -o $@ $(WARN) $(INCLUDES) -Wl,-rpath -Wl,$(LIBDIR) -O0 -g $(CFLAGS) $< -L$(LIBDIR) -ldevslashlirc
 
 test: $(TEST_PROGS)
 	./reportMode2
 	./yamaha_power_on
-	./receive
+	sleep 1; ./receive
 	./mode2dump
 
 clean:
