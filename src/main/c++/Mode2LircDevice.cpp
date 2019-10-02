@@ -60,6 +60,17 @@ void Mode2LircDevice::report(std::ostream& stream) const {
     LircDevice::report("canGetRecResolution", canGetRecResolution(), stream);
 }
 
+void Mode2LircDevice::drain() {
+    pollfd pfd = {
+        .fd = fileDescriptor,
+        .events = POLLIN,
+        .revents = 0
+    };
+    lirc_t data;
+    while (poll(&pfd, 1, 0) > 0)
+        ::read(fileDescriptor, &data, sizeof (lirc_t));
+}
+
 /**
  * Read a number.
  * @param timeout timeout in milliseconds; 0 for no timeout (wait forever)
@@ -87,6 +98,7 @@ lirc_t Mode2LircDevice::read(int timeout) {
 }
 
 IrSequence* Mode2LircDevice::receive() {
+    drain();
     microseconds_t data[captureSize];
     unsigned index = 0;
     while (index < captureSize) {

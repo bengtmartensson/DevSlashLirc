@@ -12,6 +12,8 @@ private:
 
     bool sendOdd(const lirc_t *data, unsigned length);
 
+    void drain();
+
 protected:
     milliseconds_t endTimeout;
     size_t captureSize;
