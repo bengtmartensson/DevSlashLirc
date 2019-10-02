@@ -88,7 +88,7 @@ lirc_t Mode2LircDevice::read(int timeout) {
     };
     int rc = poll(&pfd, 1, timeout ? timeout : -1);
     if (rc < 0)
-        return 0;
+        return (lirc_t) 0; // error of some kind
     if (rc == 0)
         return LircT::LircTType::TIMEOUT;
 
@@ -103,8 +103,10 @@ IrSequence* Mode2LircDevice::receive() {
     unsigned index = 0;
     while (index < captureSize) {
         lirc_t t = read(index == 0 ? beginTimeout : endTimeout);
-        if (t == 0)
-            return new IrSequence();
+        if (t == 0) {
+            index = 0;
+            continue;
+        }
 
         LircT lircT(t);
         if (lircT.isTerminal(t)) {
