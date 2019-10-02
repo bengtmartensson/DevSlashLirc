@@ -1,5 +1,11 @@
 # DevSlashLirc &mdash; Object oriented access to `/dev/lirc`-hardware.
 
+## API documentation
+
+* [C++](https://bengtmartensson.github.io/DevSlashLirc/cpp/)
+* [Java](https://bengtmartensson.github.io/DevSlashLirc/java/)
+
+## Introduction
 This library makes objects from `/dev/lirc`-hardware. These objects have properties like `canSend` etc.,
 indicating the capabilities of the currently connected hardwarec, and methods like `send` and `receive`
 for sending and receiving. See the examples in `src/test/c++`.
@@ -52,7 +58,7 @@ log in to an appropriate host, cd to `src/main/c++`, and issue the command
 
     make clean all
 
-on that host. 
+on that host.
 Then copy the thus created `libdevslashlirc.so` to a desired location.
 
 The command
@@ -64,8 +70,8 @@ creates the Doxygen and Javadoc documentation.
 The code is entirely written from scratch (not counting the branch `lircdriver`).
 
 ## Usage
-There is no "install". Just copy the `so` file and the `jar` file to anywhere you like.
-(Or use maven instead of the latter.)
+There is no "install". Just copy the `so` file, the `jar` file, and possibly the `*.h` files to anywhere you like.
+(Or use maven instead for the `jar` file.)
 
 For C++ (or a similar language), just link with the shared library `libdevslashlirc.so`
 (alternatively the static library `libdevslashlirc.a`) in the usual manner.
