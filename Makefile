@@ -14,7 +14,6 @@ VERSION := $(shell $(XSLTPROC) $(EXTRACT_VERSION) pom.xml)
 PROJECT_JAR := target/$(PROJECT_NAME)-$(VERSION).jar
 PROJECT_BIN := target/$(PROJECT_NAME)-$(VERSION)-bin.zip
 GH_PAGES := $(TOP)/gh-pages
-ORIGINURL := $(shell git remote get-url origin)
 NATIVES := native/Linux-amd64/libdevslashlirc.so native/Linux-i386/libdevslashlirc.so native/Linux-arm
 LIBS := target/libdevslashlirc.so $(NATIVES)
 DOCS := target/api-doc/index.html target/site/apidocs/index.html
