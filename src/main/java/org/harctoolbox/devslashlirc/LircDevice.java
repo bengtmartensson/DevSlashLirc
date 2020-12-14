@@ -30,7 +30,12 @@ package org.harctoolbox.devslashlirc;
  */
 public abstract class LircDevice extends LircHardware {
     public static final String defaultDeviceName = "/dev/lirc0";
+    public static final String DEFAULT = "default";
     public static final int  defaultBeginTimeout = 5000;
+
+    public static String fixDeviceName(String deviceName) {
+        return (deviceName == null || deviceName.equals(DEFAULT)) ? defaultDeviceName : deviceName;
+    }
 
     public LircDevice(String deviceName, int beginTimeout, long nativePointer) {
         super(deviceName, nativePointer);

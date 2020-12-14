@@ -28,7 +28,7 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
 
     private static final int defaultCaptureSize = 250;
     private static final int defaultEndTimeout = 200;
-
+    private static final Logger logger = Logger.getLogger(Mode2LircDevice.class.getName());
     private native static long newMode2LircDevice(String deviceName);
 
     public static void main(String[] args) {
@@ -50,7 +50,7 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
             device.setTransmitterMask(1);
             device.send(nec1_122_29, nec1_frequency);
         } catch (LircDeviceException ex) {
-            Logger.getLogger(Mode2LircDevice.class.getName()).log(Level.SEVERE, null, ex);
+            logger.log(Level.SEVERE, null, ex);
         }
     }
 
@@ -66,6 +66,10 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
 
     public Mode2LircDevice(String deviceName) throws LircDeviceException {
         this(deviceName, defaultBeginTimeout, defaultCaptureSize, defaultEndTimeout);
+    }
+
+    public Mode2LircDevice(String deviceName, boolean verbose, Integer timeout) throws LircDeviceException {
+        this(fixDeviceName(deviceName), timeout != null ? timeout : defaultBeginTimeout, defaultCaptureSize, defaultEndTimeout);
     }
 
     private native int getRecResolutionNative();
@@ -89,7 +93,7 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
         if (!canSend())
             throw new NotSupportedException("Hardware does not support sending");
         sendNative(data);
-    };
+    }
 
     @Override
     public void send(int[] data, int frequency) throws NotSupportedException {
@@ -102,7 +106,7 @@ public class Mode2LircDevice extends LircDevice implements IMode2 {
         if (!canGetRecResolution())
             throw new NotSupportedException("getResoultion not supported by driver");
         return getRecResolutionNative();
-    };
+    }
 
     @Override
     public void setSendCarrier(int frequency) throws NotSupportedException {
