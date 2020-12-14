@@ -3,7 +3,7 @@ ifneq ($(wildcard /usr/lib/jvm/java/include),)
 else
     JAVA_INCLUDE=/usr/lib/jvm/java-8-openjdk-armhf/include
 endif
-JAVAH=javah
+JAVAC=javac
 GENERATED=../../../target/generated-sources/c++/org/harctoolbox/devslashlirc
 
 # Where linux/lirc.h is to be found. "Should" now be a part of the system.
@@ -39,7 +39,7 @@ org_harctoolbox_devslashlirc_LircCodeLircDevice.o: $(GENERATED)/org_harctoolbox_
 
 
 $(GENERATED)/org_harctoolbox_devslashlirc_%.h:
-	$(JAVAH) -o $@ -classpath ../../../target/classes org.harctoolbox.devslashlirc.$*
+	$(JAVAC) -h $(GENERATED) -classpath ../../../target/classes ../java/org/harctoolbox/devslashlirc/$*.java
 
 ../../../target/libdevslashlirc.so: libdevslashlirc.so | ../../../target
 	cp $< $@
